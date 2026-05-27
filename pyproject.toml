@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phionyx-letta"
+version = "0.1.0a1"
+description = "Letta memory-mutation adapter for Phionyx runtime evidence — every memory write, clear, forget, or consolidation emits a signed, hash-chained envelope with before/after diff."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "AGPL-3.0-or-later"}
+authors = [{name = "Ali Toygar Abak", email = "founder@phionyx.ai"}]
+keywords = [
+    "letta",
+    "ai-governance",
+    "runtime-evidence",
+    "audit-chain",
+    "memory-audit",
+    "memgpt",
+    "phionyx",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "phionyx-core>=0.6.0",
+    "pydantic>=2.0",
+    "cryptography>=42.0",
+]
+
+[project.optional-dependencies]
+# Letta SDK is opt-in — the package's core envelope schema + builder
+# work without Letta installed. Install with [letta] to get the
+# real-Letta integration hooks.
+letta = ["letta-client>=0.1.0"]
+dev = ["pytest>=8.0", "jsonschema>=4.20", "hypothesis>=6.0"]
+
+[project.urls]
+Homepage = "https://phionyx.ai"
+Repository = "https://github.com/halvrenofviryel/phionyx-letta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+phionyx_letta = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
