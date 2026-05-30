@@ -15,7 +15,7 @@ can replay without operator-side insider knowledge.
 **Where this sits in the Phionyx stack.** Phionyx ships three distinct
 things, each with its own version line:
 
-- **Engine** — `phionyx-core` (latest v0.7.2): the deterministic-cognition
+- **Engine** — `phionyx-core` (latest v0.7.2): the deterministic
   SDK (46-block canonical pipeline, contract v3.8.0; state vector; kill
   switch; HITL; ethics/safety gates; signed audit chain). It is the
   reference implementation that scores L3 + D3 on the Evaluation Standard.
