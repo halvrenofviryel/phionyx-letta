@@ -15,24 +15,26 @@ can replay without operator-side insider knowledge.
 **Where this sits in the Phionyx stack.** Phionyx ships three distinct
 things, each with its own version line:
 
-- **Engine** — `phionyx-core` (latest v0.7.2): the deterministic
+- **Engine** — `phionyx-core` (latest v0.8.1): the deterministic
   SDK (46-block canonical pipeline, contract v3.8.0; state vector; kill
-  switch; HITL; ethics/safety gates; signed audit chain). It is the
-  reference implementation that scores L3 + D3 on the Evaluation Standard.
-- **Gate** — `phionyx-pipeline-mcp` (stable v0.2.0, alpha v0.3.0a1): the
-  self-governance MCP gate that verifies an agent's own "I fixed / I
-  tested / this changed" claims. This is the component the
-  Claim-Governance ladder (CG-L0…CG-L5) rates.
-- **Standard** — `phionyx-evaluation-standard` (released v0.1.1 / v0.2.0;
-  v0.3 layer in draft): a vendor-neutral spec defining L0-L3 (evaluation
-  maturity), D0-D3 (determinism), and CG-L0…CG-L5 (claim-governance).
+  switch; HITL; ethics/safety gates; signed audit chain). It emits
+  AIREP records — the Phionyx **Reasoned Governance Envelope (RGE)** is
+  AIREP's reference producer.
+- **Gate** — `phionyx-mcp-server` (v0.1.0): the self-governance MCP
+  gate that verifies an agent's own "I fixed / I tested / this changed"
+  claims and seals the decision into an AIREP record.
+- **Format** — the **AI Runtime Evidence Protocol (AIREP)** (v0.1,
+  experimental): a vendor-neutral, *proposed* open format for an AI
+  decision receipt — one signed, hash-chained, offline-checkable record
+  per runtime decision, readable by anyone and tied to no vendor. See
+  [github.com/halvrenofviryel/ai-runtime-evidence-protocol](https://github.com/halvrenofviryel/ai-runtime-evidence-protocol).
 
 **`phionyx-letta` (v0.1.0a1) is a framework adapter** — it emits audit
-envelopes; it is not the engine, the gate, or the Standard. Its envelopes
-share the engine's canonical JSON + SHA-256 hash chain and verify against
-`phionyx-mcp-server` (v0.1.0). See the Evaluation Standard for the
-vendor-neutral L0-L3 / D0-D3 / CG-L0…CG-L5 scales that place every
-component on a common footing.
+envelopes; it is not the engine, the gate, or the format spec. Its
+envelopes share the engine's canonical JSON + SHA-256 hash chain and
+verify against `phionyx-mcp-server` (v0.1.0). The envelopes follow the
+same per-decision evidence shape AIREP defines, so a third party can
+replay them offline against the published format.
 
 ## What it gives you
 
