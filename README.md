@@ -20,9 +20,11 @@ things, each with its own version line:
   switch; HITL; ethics/safety gates; signed audit chain). It emits
   AIREP records — the Phionyx **Reasoned Governance Envelope (RGE)** is
   AIREP's reference producer.
-- **Gate** — `phionyx-mcp-server` (v0.1.0): the self-governance MCP
+- **Self-claim gate** — `phionyx-pipeline-mcp` (v0.3.0): a self-governance MCP
   gate that verifies an agent's own "I fixed / I tested / this changed"
-  claims and seals the decision into an AIREP record.
+  claims against git-diff truth and seals the decision into an AIREP record.
+- **MCP trust boundary** — `phionyx-mcp-server` (v0.2.0): descriptor signing +
+  a tamper-evident audit chain over third-party MCP tool calls.
 - **Format** — the **AI Runtime Evidence Protocol (AIREP)** (v0.1,
   experimental): a vendor-neutral, *proposed* open format for an AI
   decision receipt — one signed, hash-chained, offline-checkable record
@@ -32,7 +34,7 @@ things, each with its own version line:
 **`phionyx-letta` (v0.1.0a1) is a framework adapter** — it emits audit
 envelopes; it is not the engine, the gate, or the format spec. Its
 envelopes share the engine's canonical JSON + SHA-256 hash chain and
-verify against `phionyx-mcp-server` (v0.1.0). The envelopes follow the
+verify against `phionyx-mcp-server` (v0.2.0). The envelopes follow the
 same per-decision evidence shape AIREP defines, so a third party can
 replay them offline against the published format.
 
@@ -58,7 +60,7 @@ For each memory mutation:
 
 All envelopes share Phionyx's canonical JSON + SHA-256 hash chain +
 opt-in Ed25519 signing surface (HMAC for demo). The verifier semantics
-match `phionyx-mcp-server` (v0.1.0) `audit_chain.verify_chain`
+match `phionyx-mcp-server` (v0.2.0) `audit_chain.verify_chain`
 byte-for-byte.
 
 ## Sixty-second usage
