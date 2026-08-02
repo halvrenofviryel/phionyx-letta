@@ -410,7 +410,19 @@ def verify_chain(envelopes: list[dict[str, Any]]) -> dict[str, Any]:
     treat both surfaces uniformly.
     """
     if not envelopes:
-        return {"valid": True, "checked": 0, "broken_at": None, "reason": None}
+        # An empty list is not a verified chain: nothing was walked, so nothing
+        # was established. `None` is falsy, so a caller testing truthiness fails
+        # closed rather than receiving a pass it did not earn. Found by the
+        # Measurement Axioms self-audit of 2026-08-01; the same defect was
+        # carried by three sibling packages.
+        return {
+            "valid": None,
+            "checked": 0,
+            "broken_at": None,
+            "reason": "no envelopes to verify — nothing was checked",
+            "measurement_status": "NOT_MEASURED",
+            "non_measurement_cause": "input_absent",
+        }
 
     schemas = {e.get("schema", "<missing>") for e in envelopes}
     if len(schemas) > 1:
