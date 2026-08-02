@@ -369,8 +369,17 @@ def test_chain_refuses_mixed_schemas(signer):
     assert "mixed schemas" in result["reason"]
 
 
-def test_empty_chain_is_trivially_valid():
-    assert verify_chain([])["valid"] is True
+def test_empty_chain_is_not_measured_not_valid():
+    """There is no "trivially valid" chain — there is a chain nobody walked.
+
+    The old name and assertion enshrined the first finding of the Measurement
+    Axioms self-audit of 2026-08-01: a passing test recording a non-measurement
+    as a positive result.
+    """
+    result = verify_chain([])
+    assert result["valid"] is None
+    assert result["measurement_status"] == "NOT_MEASURED"
+    assert not result["valid"], "a caller testing truthiness must not see a pass"
 
 
 def test_signer_signature_format(signer):
