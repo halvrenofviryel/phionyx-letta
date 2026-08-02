@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "phionyx-letta"
-version = "0.1.0a1"
+version = "0.1.0a2"
 description = "Letta memory-mutation adapter for Phionyx runtime evidence — every memory write, clear, forget, or consolidation emits a signed, hash-chained envelope with before/after diff."
 readme = "README.md"
 requires-python = ">=3.10"
