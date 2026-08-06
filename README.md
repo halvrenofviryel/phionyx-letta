@@ -15,11 +15,11 @@ can replay without operator-side insider knowledge.
 **Where this sits in the Phionyx stack.** Phionyx ships three distinct
 things, each with its own version line:
 
-- **Engine** — `phionyx-core` (latest v0.8.1): the deterministic
+- **Engine** — `phionyx-core` (latest v0.9.0): the deterministic
   SDK (46-block canonical pipeline, contract v3.8.0; state vector; kill
   switch; HITL; ethics/safety gates; signed audit chain). It emits
-  AIREP records — the Phionyx **Reasoned Governance Envelope (RGE)** is
-  AIREP's reference producer.
+  RGE envelopes — the Phionyx **Reasoned Governance Envelope (RGE)** is
+  developed alongside AIREP; a conformant projection between the two is **not implemented** (measured 2026-08-06: AIREP's own reference verifier rejects an RGE envelope handed to it directly).
 - **Self-claim gate** — `phionyx-pipeline-mcp` (v0.3.0): a self-governance MCP
   gate that verifies an agent's own "I fixed / I tested / this changed"
   claims against git-diff truth and seals the decision into an AIREP record.
