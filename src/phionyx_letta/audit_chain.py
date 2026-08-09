@@ -9,7 +9,7 @@ walk-and-verify path.
 Two W3 deliverables built on this module:
 
 * W3.1 — per-mutation envelope: `MemoryMutationContext` →
-  `build_memory_envelope` produces the signed dict.
+  `build_memory_envelope` produces the envelope dict (signed by the supplied signer).
 * W3.2 — forgetting / consolidation audit: optional
   `MemoryConsolidationAudit` subblock surfaces the bridge to canonical
   pipeline block #43 (`memory_consolidation`).
@@ -249,6 +249,87 @@ class HmacSigner:
     def sign(self, current_hash: str) -> str:
         digest = _hmac.new(self._secret, current_hash.encode("utf-8"), hashlib.sha256).hexdigest()
         return f"hmac-sha256:{digest[:32]}"
+
+
+# ── WP-13 — honest signer contract (mirrors phionyx-mcp-server WP-11) ───────
+# Selected by env (get_signer), never silently defaulting to the demo secret in a real run:
+#   PHIONYX_LETTA_SIGNING_KEY set -> Ed25519Signer  (real asymmetric signature)
+#   PHIONYX_LETTA_DEMO=1          -> HmacSigner      (E0; the secret ships in-package)
+#   neither                       -> UnsignedSigner  (alg='unsigned'; no signature performed)
+_ED25519_PREFIX = "ed25519:"
+
+
+def signature_algorithm(signature: str) -> str:
+    """The algorithm a signature string declares, by prefix. Absent/empty/sentinel -> 'unsigned'."""
+    if not isinstance(signature, str) or signature == "" or signature == "unsigned":
+        return "unsigned"
+    if ":" in signature:
+        return signature.split(":", 1)[0]
+    return "unknown"
+
+
+class UnsignedSigner:
+    """No signature is performed. Emits the sentinel 'unsigned' so the envelope records,
+    unambiguously, that it carries no cryptographic authorship — never a silent demo signature
+    standing in for a missing production key. Evidence level E0 (no signature at all)."""
+
+    algorithm = "unsigned"
+    key_id: str | None = None
+
+    def sign(self, current_hash: str) -> str:
+        return "unsigned"
+
+
+class Ed25519Signer:
+    """Production signer. Holds an Ed25519 private key (32-byte seed, hex) and signs the
+    ``integrity.current`` string. Signature format: ``ed25519:<128-hex>``."""
+
+    algorithm = "ed25519"
+
+    def __init__(self, private_key_hex: str, key_id: str = "phionyx-letta-ed25519") -> None:
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+        self._sk = Ed25519PrivateKey.from_private_bytes(bytes.fromhex(private_key_hex))
+        self.key_id = key_id
+
+    def sign(self, current_hash: str) -> str:
+        return _ED25519_PREFIX + self._sk.sign(current_hash.encode("utf-8")).hex()
+
+    @property
+    def public_key_hex(self) -> str:
+        from cryptography.hazmat.primitives import serialization
+
+        return self._sk.public_key().public_bytes(
+            serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
+
+
+def _load_key_material(key: str) -> str:
+    """Resolve a key argument to hex: a path to a key file (last non-comment line) or a bare hex."""
+    from pathlib import Path
+
+    p = Path(key).expanduser()
+    if p.exists():
+        lines = [s for ln in p.read_text().splitlines() if (s := ln.strip()) and not s.startswith("#")]
+        return lines[-1] if lines else ""
+    return key.strip()
+
+
+def get_signer() -> Signer:
+    """Select the signer from the environment — never a silent demo signature in a real run.
+
+    ``PHIONYX_LETTA_SIGNING_KEY`` (path or hex) -> Ed25519Signer (key_id via
+    ``PHIONYX_LETTA_KEY_ID``). Else ``PHIONYX_LETTA_DEMO=1`` -> HmacSigner (E0). Else ->
+    UnsignedSigner. A real run with no key provisioned emits explicitly UNSIGNED envelopes
+    rather than demo-signed ones that look real."""
+    import os
+
+    key = os.environ.get("PHIONYX_LETTA_SIGNING_KEY")
+    if key:
+        return Ed25519Signer(_load_key_material(key),
+                             key_id=os.environ.get("PHIONYX_LETTA_KEY_ID", "phionyx-letta-ed25519"))
+    if os.environ.get("PHIONYX_LETTA_DEMO") == "1":
+        return HmacSigner()
+    return UnsignedSigner()
 
 
 class EnvelopeStore(Protocol):

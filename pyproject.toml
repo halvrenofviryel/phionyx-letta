@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "phionyx-letta"
 version = "0.1.0a2"
-description = "Letta memory-mutation adapter for Phionyx runtime evidence — every memory write, clear, forget, or consolidation emits a signed, hash-chained envelope with before/after diff."
+description = "Letta memory-mutation adapter for Phionyx runtime evidence — every memory write, clear, forget, or consolidation emits a hash-chained envelope (signed when a signer is configured) with before/after diff."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "AGPL-3.0-or-later"}

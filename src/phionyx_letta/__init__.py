@@ -1,7 +1,7 @@
 """phionyx-letta — memory-mutation audit adapter for Phionyx runtime evidence.
 
 Every Letta memory mutation (write, append, clear, delete, forget,
-consolidate) emits a signed, hash-chained envelope. The envelope schema
+consolidate) emits a hash-chained envelope (signed when a signer is configured). The envelope schema
 captures before/after content hashes, a structured diff summary, and an
 optional forgetting-policy / consolidation audit subblock.
 
@@ -30,13 +30,17 @@ from __future__ import annotations
 from .audit_chain import (
     GENESIS_HASH,
     SCHEMA_ID,
+    Ed25519Signer,
     FilesystemEnvelopeStore,
     HmacSigner,
     MemoryConsolidationAudit,
     MemoryDiff,
     MemoryMutationContext,
+    UnsignedSigner,
     build_memory_envelope,
     compute_memory_diff,
+    get_signer,
+    signature_algorithm,
     verify_chain,
 )
 
@@ -45,13 +49,17 @@ __version__ = "0.1.0a2"
 __all__ = [
     "GENESIS_HASH",
     "SCHEMA_ID",
+    "Ed25519Signer",
     "FilesystemEnvelopeStore",
     "HmacSigner",
     "MemoryConsolidationAudit",
     "MemoryDiff",
     "MemoryMutationContext",
+    "UnsignedSigner",
     "build_memory_envelope",
     "compute_memory_diff",
+    "get_signer",
+    "signature_algorithm",
     "verify_chain",
     "__version__",
 ]
