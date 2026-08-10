@@ -3,7 +3,7 @@
 > **Memory-mutation audit chain for Letta agents** — every memory write,
 > append, clear, delete, forget, or consolidation emits a hash-chained
 > envelope (signed when a signer is configured) with a structured before/after diff.
-> AGPL-3.0 · Python 3.10+ · alpha (v0.1.0a1)
+> AGPL-3.0 · Python 3.10+ · alpha (v0.1.0a3)
 
 Phionyx-letta is a **framework adapter** in the Phionyx portfolio. It
 implements the **memory diff audit** layer described in the Phionyx
@@ -209,7 +209,7 @@ memory mutation envelope with `memory_audit_parent_ref` set to your own
 
 ## Status
 
-Current release: **v0.1.0a1** (alpha). The following capabilities are
+Current release: **v0.1.0a3** (alpha). The following capabilities are
 available:
 
 - **Per-mutation envelope.** Available. 20/20 tests pass.
