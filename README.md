@@ -31,7 +31,7 @@ things, each with its own version line:
   per runtime decision, readable by anyone and tied to no vendor. See
   [github.com/halvrenofviryel/ai-runtime-evidence-protocol](https://github.com/halvrenofviryel/ai-runtime-evidence-protocol).
 
-**`phionyx-letta` (v0.1.0a1) is a framework adapter** — it emits audit
+**`phionyx-letta` (v0.1.0a3) is a framework adapter** — it emits audit
 envelopes; it is not the engine, the gate, or the format spec. Its
 envelopes share the engine's canonical JSON + SHA-256 hash chain and
 verify against `phionyx-mcp-server` (v0.2.0). The envelopes follow the
@@ -97,7 +97,7 @@ ctx = MemoryMutationContext(
 envelope = build_memory_envelope(
     ctx=ctx,
     previous_hash=store.head("letta-trace-alex-001"),
-    package_version="0.1.0a1",
+    package_version="0.1.0a3",
     signer=signer,
 )
 store.append("letta-trace-alex-001", envelope)
@@ -118,7 +118,7 @@ Top-level structure:
   "schema": "phionyx.memory_mutation_envelope.v1",
   "subject": {
     "runtime": "phionyx-letta",
-    "version": "0.1.0a1",
+    "version": "0.1.0a3",
     "producer": "<letta agent identifier>",
     "turn_index": <int>,
     "event_type": "memory_<kind>",
@@ -174,7 +174,7 @@ upstream envelope's id can be passed as `memory_audit_parent_ref`:
 envelope = build_memory_envelope(
     ctx=ctx,
     previous_hash=store.head(trace_id),
-    package_version="0.1.0a1",
+    package_version="0.1.0a3",
     signer=signer,
     memory_audit_parent_ref="envelope://sha256:<upstream RGE envelope current>",
 )
@@ -197,7 +197,7 @@ memory mutation envelope with `memory_audit_parent_ref` set to your own
   yourself (with `compute_memory_diff` or your own logic) and call
   `build_memory_envelope` at the right point in your code. A future
   release MAY ship a Letta runtime hook that intercepts memory writes;
-  v0.1.0a1 ships the audit primitives only.
+  v0.1.0a3 ships the audit primitives only.
 - **It does not store memory contents by default.** `diff.diff_text` is
   None unless the caller explicitly requests it (`include_diff_text=True`).
   Size deltas + content hashes are always recorded; raw text is opt-in.
@@ -212,7 +212,7 @@ memory mutation envelope with `memory_audit_parent_ref` set to your own
 Current release: **v0.1.0a3** (alpha). The following capabilities are
 available:
 
-- **Per-mutation envelope.** Available. 20/20 tests pass.
+- **Per-mutation envelope.** Available. Covered by the test suite.
 - **Forgetting + consolidation audit subblock.** Available.
 - **Cross-runtime composition.** Available via
   `subject.metadata.memory_audit`.
