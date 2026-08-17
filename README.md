@@ -9,13 +9,13 @@ Phionyx-letta is a **framework adapter** in the Phionyx portfolio. It
 implements the **memory diff audit** layer described in the Phionyx
 runtime-evidence design. It treats Letta core-memory blocks the same way
 the rest of the Phionyx stack treats agent turns: every state change is
-captured in a hash-chained, tamper-evident envelope that a third party
+captured in a hash-chained envelope that a third party
 can replay without operator-side insider knowledge.
 
 **Where this sits in the Phionyx stack.** Phionyx ships three distinct
 things, each with its own version line:
 
-- **Engine** — `phionyx-core` (latest v0.9.0): the deterministic
+- **Engine** — `phionyx-core` (current release on PyPI): the deterministic
   SDK (46-block canonical pipeline, contract v3.8.0; state vector; kill
   switch; HITL; ethics/safety gates; signed audit chain). It emits
   RGE envelopes — the Phionyx **Reasoned Governance Envelope (RGE)** is
