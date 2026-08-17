@@ -20,11 +20,11 @@ things, each with its own version line:
   switch; HITL; ethics/safety gates; signed audit chain). It emits
   RGE envelopes — the Phionyx **Reasoned Governance Envelope (RGE)** is
   developed alongside AIREP; a conformant projection between the two is **not implemented** (measured 2026-08-06: AIREP's own reference verifier rejects an RGE envelope handed to it directly).
-- **Self-claim gate** — `phionyx-pipeline-mcp` (v0.3.0): a self-governance MCP
+- **Self-claim gate** — `phionyx-pipeline-mcp` (current release on PyPI): a self-governance MCP
   gate that verifies an agent's own "I fixed / I tested / this changed"
-  claims against git-diff truth and seals the decision into an AIREP record.
-- **MCP trust boundary** — `phionyx-mcp-server` (v0.2.0): descriptor signing +
-  a tamper-evident audit chain over third-party MCP tool calls.
+  claims against git-diff truth and seals the decision into an RGE record.
+- **MCP trust boundary** — `phionyx-mcp-server` (current release on PyPI): descriptor
+  hash pinning + a hash-chained audit chain (optional signing) over third-party MCP tool calls.
 - **Format** — the **AI Runtime Evidence Protocol (AIREP)** (v0.1,
   experimental): a vendor-neutral, *proposed* open format for an AI
   decision receipt — one signed, hash-chained, offline-checkable record
@@ -34,9 +34,9 @@ things, each with its own version line:
 **`phionyx-letta` (v0.1.0a3) is a framework adapter** — it emits audit
 envelopes; it is not the engine, the gate, or the format spec. Its
 envelopes share the engine's canonical JSON + SHA-256 hash chain and
-verify against `phionyx-mcp-server` (v0.2.0). The envelopes follow the
-same per-decision evidence shape AIREP defines, so a third party can
-replay them offline against the published format.
+verify against `phionyx-mcp-server` (current release on PyPI). The envelopes carry the per-decision evidence fields (claim, evidence,
+directive, integrity) in RGE form; a third party can re-verify the hash
+chain offline. No AIREP-conformance claim is made.
 
 ## What it gives you
 
