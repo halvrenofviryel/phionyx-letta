@@ -19,7 +19,7 @@ things, each with its own version line:
   SDK (46-block canonical pipeline, contract v3.8.0; state vector; kill
   switch; HITL; ethics/safety gates; signed audit chain). It emits
   RGE envelopes — the Phionyx **Reasoned Governance Envelope (RGE)** is
-  developed alongside AIREP; a conformant projection between the two is **not implemented** (measured 2026-08-06: AIREP's own reference verifier rejects an RGE envelope handed to it directly).
+  developed alongside AIREP; a conformant projection between the two is **not released** — an experimental Decision-only projection is implemented, has not been independently rerun, and Control, Execution and Effect remain NOT_PROJECTABLE (the 2026-08-06 measurement that AIREP's own reference verifier rejects an RGE envelope handed to it directly is why a projection layer is required).
 - **Self-claim gate** — `phionyx-pipeline-mcp` (current release on PyPI): a self-governance MCP
   gate that verifies an agent's own "I fixed / I tested / this changed"
   claims against git-diff truth and seals the decision into an RGE record.
