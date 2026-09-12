@@ -25,8 +25,8 @@ things, each with its own version line:
   claims against git-diff truth and seals the decision into an RGE record.
 - **MCP trust boundary** — `phionyx-mcp-server` (current release on PyPI): descriptor
   hash pinning + a hash-chained audit chain (optional signing) over third-party MCP tool calls.
-- **Format** — the **AI Runtime Evidence Protocol (AIREP)** (v0.1,
-  experimental): a vendor-neutral, *proposed* open format for an AI
+- **Format** — the **AI Runtime Evidence Protocol (AIREP)** (v0.2.0-beta.1,
+  experimental prerelease; v0.1 frozen and supported): a vendor-neutral, *proposed* open format for an AI
   decision receipt — one signed, hash-chained, offline-checkable record
   per runtime decision, readable by anyone and tied to no vendor. See
   [github.com/halvrenofviryel/ai-runtime-evidence-protocol](https://github.com/halvrenofviryel/ai-runtime-evidence-protocol).
